@@ -1,6 +1,7 @@
 package domain.rules.shogiban
 
-import domain.rules.koma._
+import domain.rules.koma.Koma
+import domain.rules.koma.Koma._
 
 object MoveKomaRules {
 
