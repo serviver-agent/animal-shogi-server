@@ -3,6 +3,8 @@ import org.junit.Assert._
 
 class Test1 {
   @Test def t1(): Unit = {
-    assertEquals("I was compiled by dotty :)", Main.msg)
+    import hoge._
+    import Day._
+    assertEquals(Monday.isWeekend, false)
   }
 }
