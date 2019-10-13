@@ -4,7 +4,8 @@ import domain.rules.koma.Koma
 import domain.rules.koma.Koma._
 
 case class Shogiban(
-    placedKomas: Seq[PlacedKoma]
+    placedKomas: Seq[PlacedKoma],
+    stockingKomas: Seq[StockingKoma]
 ) {
 
   import Shogiban._
@@ -19,7 +20,7 @@ case class Shogiban(
     for {
       picked <- pick(from)
       moved  <- move(picked, to)
-    } yield Shogiban(this.placedKomas.filter(_ != picked).appended(moved))
+    } yield Shogiban(this.placedKomas.filter(_ != picked).appended(moved), this.stockingKomas)
   }
 
 }
@@ -39,7 +40,7 @@ object Shogiban {
       PlacedKoma(Sente, Position(PosB, Pos4), Raion),
       PlacedKoma(Sente, Position(PosC, Pos4), Kirin)
     )
-    Shogiban(placedKomas)
+    Shogiban(placedKomas, Nil)
   }
 
   trait MoveKomaError

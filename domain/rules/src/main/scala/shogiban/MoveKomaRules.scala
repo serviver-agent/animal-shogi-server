@@ -5,7 +5,7 @@ import domain.rules.koma.Koma._
 
 object MoveKomaRules {
 
-  def moveRange(koma: Koma): List[RelativePosition] = {
+  def moveRelativePosition(koma: Koma): List[RelativePosition] = {
     def mkRPs(rps: (Int, Int)*): List[RelativePosition] = {
       rps
         .map({ case (rh, rv) => RelativePosition(RPosH(rh), RPosV(rv)) })
@@ -18,6 +18,17 @@ object MoveKomaRules {
       case Raion    => mkRPs((-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1))
       case Niwatori => mkRPs((-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (0, 1))
     }
+  }
+
+  def movableInShogiban(placedKoma: PlacedKoma, shogiban: Shogiban, player: Player): List[Position] = {
+
+    val rps = moveRelativePosition(placedKoma.koma)
+    val poss: List[Position] = rps.map(rp => placedKoma.position.move(rp)).collect {
+      case Right(p) => p
+    }
+    val existPlayersKomaSet = shogiban.placedKomas.filter(_.player == player).map(_.position).toSet
+    poss.filter(existPlayersKomaSet)
+
   }
 
 }
